@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    vodoo (0.0.1)
+    vodoo (0.0.1b)
 
 GEM
   remote: http://rubygems.org/
