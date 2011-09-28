@@ -1,25 +1,20 @@
 require "vodoo/version"
+require 'chronic'
 
 module Vodoo
   class << self
     attr_accessor :task_file
-
     def all_tasks
-      tasks = YAML.load_file(task_file)
+      ( File.exist? self.task_file )? YAML.load_file(self.task_file) : {}
     end
 
-    def add_task(content)
+    def add_task(time, content)
       tasks = all_tasks
+      time = Chronic.parse(time).to_s
+      tasks[time] = content
       File.open(task_file, "w") do |f|
-        f.write(yaml(tasks))
+        f.write(tasks.to_yaml)
       end
     end
-
-    def yaml(hash)
-      method = hash.respond_to?(:ya2yaml) ? :ya2yaml : :to_yaml
-      string = hash.deep_stringify_keys.send(method)
-      string.gsub("!ruby/symbol ", ":").sub("---","").split("\n").map(&:rstrip).join("\n").strip
-    end
   end
-  self.task_file = "tasks.yml"
 end
