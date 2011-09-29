@@ -15,16 +15,17 @@ module Vodoo
       tasks[sha] = {}
       tasks[sha][:content] = content
       tasks[sha][:created] = time
-      Vodoo.publish_tasks tasks
+      publish_tasks tasks
       return sha
     end
 
     def remove_task(sha)
       tasks = all_tasks
       tasks.delete sha
-      Vodoo.publish_tasks tasks
+      publish_tasks tasks
     end
 
+    private
     def publish_tasks(tasks)
       File.open(task_file, "w") do |f|
         f.write(tasks.to_yaml)
