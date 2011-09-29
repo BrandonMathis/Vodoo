@@ -25,8 +25,11 @@ describe Vodoo do
       File.delete(@file) if File.exist? @file
     end
     describe "remove_task" do
-      it "should removed task from the yml" do
+      before do
         Vodoo.remove_task @sha
+      end
+      it "should removed task from the yml" do
+        Vodoo.all_tasks.should == {}
       end
     end
   end
